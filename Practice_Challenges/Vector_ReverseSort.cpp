@@ -6,6 +6,8 @@ using namespace std;
 void SortInDecreasing(vector<int>& other)
 {
 	std::sort(other.begin(), other.end(), [](int x, int y) { return x > y; });
+	//std::sort(other.begin(), other.end(), greater<int>());
+	//std::sort(other.rbegin(), other.rend());
 }
 
 void Print(vector<int>& other)
