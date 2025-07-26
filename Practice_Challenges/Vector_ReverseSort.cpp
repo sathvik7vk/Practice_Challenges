@@ -19,6 +19,12 @@ void Print(vector<int>& other)
 int main()
 {
 	vector<int> vec = { 9, 5, 7, 3, 8, 2, 4 };
+	cout << "Before sorting" << endl;
+	Print(vec);
 	SortInDecreasing(vec);
+
+	cout << "After sorting" << endl;
+	Print(vec);
+	return 0;
 
 }
