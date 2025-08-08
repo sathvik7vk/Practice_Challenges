@@ -31,7 +31,7 @@ public:
 	}
 
 	T& operator*() { return *ptr; }
-	T operator->() { 
+	T* operator->() { 
 		try {
 			if (!ptr)
 				throw std::runtime_error("Null pointer");
@@ -44,10 +44,25 @@ public:
 		}
 	}
 
+	void reset(T* newPtr)
+	{
+		delete ptr;
+		ptr = newPtr;
+	}
+
+	T* release()
+	{
+		T* rawPtr = ptr;
+		ptr = nullptr;
+		return rawPtr;
+	}
+
 };
 int main()
 {
 	UniquePtr<int> uniqPtr(new int(99));
+
+	uniqPtr.reset(new int(85));
 
 	return 0;
 }
