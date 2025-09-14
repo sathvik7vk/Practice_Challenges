@@ -105,7 +105,8 @@ public:
 		valuePopped = temp->data;
 		current->next.reset();
 		count--;
-		tail = current.get();
+		//tail = current.get();   //current is not a smart pointer. As it is a raw pointer, just assign it to tail
+		tail = current;
 
 		return valuePopped;
 	}
@@ -123,6 +124,11 @@ public:
 		count--;
 		return valuePopped;
 
+		//Here, instead of calling .reset(), you move head->next into head.
+		//1. head->next transfers ownership into head.
+		//2. The old head unique_ptr (the one pointing to the node being popped) is overwritten.
+		//3. As soon as that happens, the destructor of the old unique_ptr is called automatically, which deletes the old front node.
+
 	}
 
 
@@ -136,6 +142,8 @@ public:
 		}
 		cout << endl;
 	}
+
+	int size() const { return count; }
 
 };
 
