@@ -1,4 +1,5 @@
 #include<iostream>
+#include<memory>
 using namespace std;
 
 class Meal
@@ -85,13 +86,13 @@ public:
 class Server
 {
 public:
-	unique_ptr<Meal> TakeOrderAndSupplyMeal(std::unique_ptr<MealBuilder> pBuilder)
-	{
-		pBuilder->createMainDish();
-		pBuilder->createSideDish();
-		pBuilder->CreateDrinks();
-		return move(pBuilder->GetMeal());
-	}
+	//unique_ptr<Meal> TakeOrderAndSupplyMeal(std::unique_ptr<MealBuilder>& pBuilder)
+	//{
+	//	pBuilder->createMainDish();
+	//	pBuilder->createSideDish();
+	//	pBuilder->CreateDrinks();
+	//	return move(pBuilder->GetMeal());
+	//}
 
 	unique_ptr<Meal> TakeOrderAndSupplyMeal(MealBuilder& builder) {
 		builder.createMainDish();
@@ -113,15 +114,21 @@ int main()
 
 	//}
 
-	Server server;
+	std::unique_ptr<Server> server = std::make_unique<Server>();
 
-	NorthIndianMealBuilder northBuilder;
-	auto meal1 = server.TakeOrderAndSupplyMeal(northBuilder);
-	meal1->ShowMeal();
+	//NorthIndianMealBuilder northBuilder;
+	//auto meal1 = server.TakeOrderAndSupplyMeal(northBuilder);
+	//meal1->ShowMeal();
 
-	SouthIndianMealBuilder southBuilder;
-	auto meal2 = server.TakeOrderAndSupplyMeal(southBuilder);
-	meal2->ShowMeal();
+	//SouthIndianMealBuilder southBuilder;
+	//auto meal2 = server.TakeOrderAndSupplyMeal(southBuilder);
+	//meal2->ShowMeal();
+
+	std::unique_ptr<MealBuilder> southMealBuilder = std::make_unique<SouthIndianMealBuilder>();
+	std::unique_ptr<Meal> meal = server->TakeOrderAndSupplyMeal(*southMealBuilder);
+	meal->ShowMeal();
+
+
 
 	return 0;
 }
